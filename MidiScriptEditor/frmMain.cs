@@ -156,8 +156,8 @@ namespace MidiScriptEditor
 					newSequence.Save(outputStream);
 				}
 
-				Process.Start(Path.GetDirectoryName(savePath));
 				MessageBox.Show("Success.\nSaved to " + savePath, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				Process.Start(Path.GetDirectoryName(savePath));
 			}
 			catch (Exception exc)
 			{
@@ -190,18 +190,22 @@ namespace MidiScriptEditor
 			else
 			{
 				// Load save path
-				if (string.IsNullOrEmpty(sfd.FileName))
-				{
-					sfd.InitialDirectory = Path.GetDirectoryName(path);
-					sfd.FileName = Path.GetFileNameWithoutExtension(path) + ".edited" + Path.GetExtension(path);
-				}
+				//if (string.IsNullOrEmpty(sfd.FileName))
+				//{
+				//	sfd.InitialDirectory = Path.GetDirectoryName(path);
+				//	sfd.FileName = Path.GetFileNameWithoutExtension(path) + ".edited" + Path.GetExtension(path);
+				//}
 
-				if (sfd.ShowDialog() == DialogResult.OK)
-				{
-					string savePath = sfd.FileName;
-					Console.WriteLine("Save path loaded to : " + savePath);
-					Script(savePath);
-				}
+				//if (sfd.ShowDialog() == DialogResult.OK)
+				//{
+				//	string savePath = sfd.FileName;
+				//	Console.WriteLine("Save path loaded to : " + savePath);
+				//	Script(savePath);
+				//}
+
+
+				string savePath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + "_edited.mid");
+				Script(savePath);
 			}
 		}
 
