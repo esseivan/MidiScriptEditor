@@ -31,7 +31,7 @@ namespace MidiScriptEditor
 	public partial class frmMain : Form
 	{
 		private string path = string.Empty;
-		public Dictionary<byte, Notes> Config;
+		public static Dictionary<byte, Notes> Config;
 		public Dictionary<byte, string> Comments;
 		private bool pauseCheckEdit = true;
 
@@ -62,15 +62,19 @@ namespace MidiScriptEditor
 			Cowbell = 56,
 		}
 
-		public byte GetNote(byte note)
+		public static byte GetNote(byte note)
 		{
-			Notes newNote = Config[note];
-			if (Enum.IsDefined(typeof(Notes), newNote) && newNote != Notes.Undefined)
-				return (byte)newNote;
+			if (Config == null) PopulateConfig();
+			if (Config.ContainsKey(note))
+			{
+				Notes newNote = Config[note];
+				if (Enum.IsDefined(typeof(Notes), newNote) && newNote != Notes.Undefined)
+					return (byte)newNote;
+			}
 			return note;
 		}
 
-		private void PopulateConfig()
+		private static void PopulateConfig()
 		{
 			Config = new Dictionary<byte, Notes>()
 			{
@@ -83,6 +87,12 @@ namespace MidiScriptEditor
 				{111, Notes.LowTom }, // Blue Pad Lane 5 - Tom 2
 				{112, Notes.LowFloorTom }, // Green Pad Lane 7 - Tom 3
 			};
+		}
+
+
+		private void InitConfig()
+		{
+			PopulateConfig();
 			Comments = new Dictionary<byte, string>()
 			{
 				{96, "Orange Long Note - Kick"},
@@ -107,23 +117,23 @@ namespace MidiScriptEditor
 		public frmMain()
 		{
 			InitializeComponent();
-			PopulateConfig();
+			InitConfig();
 			ofd.InitialDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Downloads");
 			ofd.Filter = sfd.Filter = "Midi files (*.mid;*.midi)|*.mid;*.midi|All files (*.*)|*.*";
 		}
 
-		private void EditNote(NoteVoiceMidiEvent ev)
+		private static void EditNote(NoteVoiceMidiEvent ev)
 		{
 			ev.Note = GetNote(ev.Note);
 		}
 
-		private void Script(string savePath)
+		public static void Script(string readPath, string savePath = null)
 		{
 			try
 			{
 				// Load file
 				MidiSequence sequence;
-				using (Stream inputStream = File.OpenRead(path))
+				using (Stream inputStream = File.OpenRead(readPath))
 				{
 					sequence = MidiSequence.Open(inputStream);
 				}
@@ -151,6 +161,8 @@ namespace MidiScriptEditor
 
 
 				// Save file
+				savePath = savePath ?? Path.Combine(Path.GetDirectoryName(readPath), Path.GetFileNameWithoutExtension(readPath) + "_edited.mid");
+
 				using (Stream outputStream = File.OpenWrite(savePath))
 				{
 					newSequence.Save(outputStream);
@@ -204,8 +216,7 @@ namespace MidiScriptEditor
 				//}
 
 
-				string savePath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + "_edited.mid");
-				Script(savePath);
+				Script(path);
 			}
 		}
 
@@ -261,6 +272,11 @@ namespace MidiScriptEditor
 			Config.Remove((byte)numericUpDown1.Value);
 			Comments.Remove((byte)numericUpDown1.Value);
 			RefreshDataSource();
+		}
+
+		private void frmMain_Load(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

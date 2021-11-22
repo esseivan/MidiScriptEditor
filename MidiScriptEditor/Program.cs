@@ -14,9 +14,26 @@ namespace MidiScriptEditor
 		[STAThread]
 		static void Main()
 		{
+			string[] args = Environment.GetCommandLineArgs();
+			string arg_file = args.ElementAtOrDefault(1);
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new frmMain());
+			if (string.IsNullOrEmpty(arg_file))
+			{
+				Application.Run(new frmMain());
+			}
+			else
+			{
+				try
+				{
+					frmMain.Script(arg_file);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show(ex.ToString());
+					throw;
+				}
+			}
 		}
 	}
 }
