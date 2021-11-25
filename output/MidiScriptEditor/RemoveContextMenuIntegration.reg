@@ -2,3 +2,4 @@ Windows Registry Editor Version 5.00
 
 [-HKEY_LOCAL_MACHINE\Software\Classes\VLC.mid\shell\midi_control]
 [-HKEY_LOCAL_MACHINE\Software\Classes\WMP11.AssocFile.MIDI\shell\midi_control]
+[-HKEY_CLASSES_ROOT\*\shell\midi_control]

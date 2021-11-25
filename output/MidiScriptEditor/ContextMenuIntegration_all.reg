@@ -1,0 +1,7 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\*\shell\midi_control]
+@="Midi Convert"
+
+[HKEY_CLASSES_ROOT\*\shell\midi_control\command]
+@="\"C:\\ESN\\MidiScriptEditor\\MidiScriptEditor.exe\" \"%1\""
