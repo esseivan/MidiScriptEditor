@@ -4,11 +4,11 @@ Windows Registry Editor Version 5.00
 @="Midi Convert"
 
 [HKEY_LOCAL_MACHINE\Software\Classes\VLC.mid\shell\midi_control\command]
-@="\"C:\\Workspace\\ESN\\MidiScriptEditor\\MidiScriptEditor.exe\" \"%1\""
+@="\"C:\\ESN\\MidiScriptEditor\\MidiScriptEditor.exe\" \"%1\""
 
 
 [HKEY_LOCAL_MACHINE\Software\Classes\WMP11.AssocFile.MIDI\shell\midi_control]
 @="Midi Convert"
 
 [HKEY_LOCAL_MACHINE\Software\Classes\WMP11.AssocFile.MIDI\shell\midi_control\command]
-@="\"C:\\Workspace\\ESN\\MidiScriptEditor\\MidiScriptEditor.exe\" \"%1\""
+@="\"C:\\ESN\\MidiScriptEditor\\MidiScriptEditor.exe\" \"%1\""
