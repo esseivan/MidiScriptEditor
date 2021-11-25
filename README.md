@@ -8,3 +8,5 @@ What is missing :
 - Interface and custom settings
 
 
+Thanks for stephentoub for the library :
+https://github.com/stephentoub/MidiSharp
